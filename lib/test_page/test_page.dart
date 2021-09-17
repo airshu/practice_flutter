@@ -1,13 +1,12 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:practice_flutter/main_constraint_test_page.dart';
 
 class TestPage extends StatefulWidget {
-  TestPage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
 
   @override
   State<TestPage> createState() => _TestPageState();
@@ -18,10 +17,17 @@ class _TestPageState extends State<TestPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Fragment Demo"),
+        title: Text("测试"),
       ),
       body: Column(
-        children: [Text("hahaha")],
+        children: [
+          Text("hahaha"),
+          Icon(
+            Icons.star,
+            color: Colors.blue[500],
+          ),
+
+        ],
       ),
     );
   }
@@ -144,10 +150,8 @@ class DataBloc {
   late StreamSubscription _dataSubscription;
 
   init() {
-    _dataSubscription = _dataStream.listen((event) {
+    _dataSubscription = _dataStream.listen((event) {});
 
-    });
-    
     _dataSink.add(["first", "second", "three", "four"]);
   }
 
@@ -172,5 +176,107 @@ class DataBloc {
       print(value);
     });
   }
+}
 
+
+
+
+
+class CustomerStatefulWidget extends StatefulWidget {
+  final String _name;
+
+  CustomerStatefulWidget(this._name);
+
+  @override
+  State<StatefulWidget> createState() {
+    print("TAG, CustomerStatefulWidget:" + _name + "  build");
+    return CustomerState("CustomerStateA");
+  }
+}
+
+class CustomerState extends State<CustomerStatefulWidget> {
+  String _name;
+
+  CustomerState(this._name) {
+    print("TAG, CustomerState:" + _name + "  构造");
+  }
+
+  int _customerStatelessText = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    print("TAG, " + _name + "  build");
+    return SafeArea(
+      child: Container(
+        margin: EdgeInsets.only(top: 0),
+        color: Colors.yellow,
+        child: Column(
+          children: <Widget>[
+            MyAppBar(title: Text('目录'),),
+            CustomerStatelessWidget("BBB", "BBB"),
+            CustomerStatelessWidget(
+                "AAA", "AAA:" + _customerStatelessText.toString()),
+            GestureDetector(
+              onTap: () {
+                print("Click My");
+                setState(() {
+                  _customerStatelessText++;
+                });
+              },
+              child: Text("Click My"),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class CustomerStatelessWidget extends StatelessWidget {
+  final String _text;
+  final String _name;
+
+  CustomerStatelessWidget(this._name, this._text) {
+    print("TAG, CustomerStatelessWidget:" + _name + "  构造");
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    print("TAG, CustomerStatelessWidget:" + _name + "  build");
+    if (_name == "BBB") {
+//      for (int i = 0; i < 10000000; i++) {
+//        print("for:" + i.toString());
+//      }
+      print("我是一个耗时方法，耗时2s");
+    }
+    return Text(_text);
+  }
+}
+
+class MyAppBar extends StatelessWidget {
+  MyAppBar({required this.title});
+
+  // Widget子类中的字段往往都会定义为"final"
+
+  final Widget title;
+
+  @override
+  Widget build(BuildContext context) {
+    return new Container(
+      height: 56.0, // 单位是逻辑上的像素（并非真实的像素，类似于浏览器中的像素）
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      decoration: new BoxDecoration(color: Colors.blue[500]),
+      // Row 是水平方向的线性布局（linear layout）
+      child: new Row(
+        //列表项的类型是 <Widget>
+        children: <Widget>[
+          Icon(Icons.forward),// Expanded expands its child to fill the available space.
+          Expanded(
+            child: title,
+          ),
+          Icon(Icons.search),
+        ],
+      ),
+    );
+  }
 }
