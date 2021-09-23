@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:practice_flutter/home.dart';
 import 'package:practice_flutter/test_page/anim_test_page.dart';
 import 'package:practice_flutter/test_page/container_test_page.dart';
+import 'package:practice_flutter/test_page/inherited_test_page.dart';
 import 'package:practice_flutter/test_page/refresh_test_page.dart';
 import 'package:practice_flutter/test_page/shopping_page.dart';
 import 'package:practice_flutter/test_page/state1_test_page.dart';
@@ -75,6 +76,7 @@ final Map<String, WidgetBuilder> _routes = {
   "anim_test": (context) => AnimTestPage(),
   "pull_to_refresh": (context) => PullToRefreshWidget(),
   "ParentWidgetC": (context) => ParentWidgetC(),
+  "MyTree": (context) => InheritedWidgetTestRoute(),
 };
 
 class MenuPage extends StatefulWidget {
@@ -98,6 +100,7 @@ class _MenuPageState extends State<MenuPage> {
     _menus.add("anim_test");
     _menus.add("pull_to_refresh");
     _menus.add("ParentWidgetC");
+    _menus.add("MyTree");
     super.initState();
   }
 
