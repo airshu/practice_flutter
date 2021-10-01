@@ -77,6 +77,7 @@ final Map<String, WidgetBuilder> _routes = {
   "pull_to_refresh": (context) => PullToRefreshWidget(),
   "ParentWidgetC": (context) => ParentWidgetC(),
   "MyTree": (context) => InheritedWidgetTestRoute(),
+  // 'GetX': (context) => GetXExamplePage(),
 };
 
 class MenuPage extends StatefulWidget {
@@ -85,22 +86,11 @@ class MenuPage extends StatefulWidget {
 }
 
 class _MenuPageState extends State<MenuPage> {
-  late List<String> _menus;
+  List<String> _menus = _routes.keys.toList().sublist(1);
 
   @override
   void initState() {
-    _menus = <String>[];
-    _menus.add("home");
-    _menus.add("test");
-    _menus.add("text");
-    _menus.add("shopping");
-    _menus.add("widget");
-    _menus.add("container");
-    _menus.add("widget_lifecycle");
-    _menus.add("anim_test");
-    _menus.add("pull_to_refresh");
-    _menus.add("ParentWidgetC");
-    _menus.add("MyTree");
+
     super.initState();
   }
 
