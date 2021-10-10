@@ -41,6 +41,7 @@ dependencies:
   flutter_test_plugin:
     path: plugins/flutter_test_plugin
   pull_to_refresh: ^2.0.0
+  get:
 
 
 dev_dependencies:

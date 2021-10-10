@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:practice_flutter/getx_page/pageview_page.dart';
 
 
 abstract class AppRoutes {
@@ -28,6 +29,7 @@ final _routes = [
       ),
     ],
   ),
+  GetPage(name: '/pageview', page: ()=>PageViewDemoPage(),),
 ];
 
 void main() =>
@@ -131,6 +133,9 @@ class Home extends StatelessWidget {
             ElevatedButton(onPressed: () {
               Get.toNamed("/home/list/detail");
             }, child: Text('嵌套跳转')),
+            ElevatedButton(onPressed: (){
+              Get.toNamed('/pageview');
+            },child: Text('pageview'),)
           ],
         ),
       ),
