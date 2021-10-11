@@ -13,3 +13,5 @@ key.properties
 **/*.jks
 
 /app/build/
+app/build/*
+app/build/
