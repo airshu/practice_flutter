@@ -20,6 +20,19 @@ class _NormalPageState extends State<NormalPage> {
   void initState() {
     super.initState();
     _resetCards();
+
+    //
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      showDialog(context: context,builder: (context){
+        return AlertDialog(title: Text('AlertDialog'),);
+      });
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+
+    super.didChangeDependencies();
   }
 
   void _resetCards() {}
