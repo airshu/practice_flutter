@@ -15,6 +15,8 @@ import 'package:practice_flutter/test_page/text_page.dart';
 import 'package:practice_flutter/test_page/widget_lifecycle_page.dart';
 import 'package:practice_flutter/test_page/widget_page.dart';
 
+import 'test_page/appbar_test_page.dart';
+
 void main() {
   // 重写异常方法，可用于上报
   FlutterError.onError = (FlutterErrorDetails details) {
@@ -77,6 +79,7 @@ final Map<String, WidgetBuilder> _routes = {
   "pull_to_refresh": (context) => PullToRefreshWidget(),
   "ParentWidgetC": (context) => ParentWidgetC(),
   "MyTree": (context) => InheritedWidgetTestRoute(),
+  "AppBar": (context) => AppBarTestPage(),
   // 'GetX': (context) => GetXExamplePage(),
 };
 
