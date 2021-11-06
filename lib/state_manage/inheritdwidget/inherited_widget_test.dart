@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 void main() {
+  debugPrintBuildScope = true;
   runApp(
     MaterialApp(
       home: Scaffold(body: InheritedWidgetTestRoute()),

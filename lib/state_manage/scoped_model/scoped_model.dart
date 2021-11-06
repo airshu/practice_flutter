@@ -31,6 +31,7 @@ import 'package:flutter/material.dart';
 ///   }
 /// }
 /// ```
+/// 模型，存放数据
 abstract class Model extends Listenable {
   final Set<VoidCallback> _listeners = Set<VoidCallback>();
   int _version = 0;
@@ -52,6 +53,7 @@ abstract class Model extends Listenable {
   int get listenerCount => _listeners.length;
 
   /// Should be called only by [Model] when the model has changed.
+  /// 数据改变后，通知监听者
   @protected
   void notifyListeners() {
     // We schedule a microtask to debounce multiple changes that can occur
