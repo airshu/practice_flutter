@@ -1,7 +1,3 @@
-
-
-
-
 import 'package:flutter/material.dart';
 
 void main() {
@@ -30,10 +26,8 @@ class _ScaleAnimationRouteState extends State<ScaleAnimationRoute>
       vsync: this,
     );
 
-
     animation = CurvedAnimation(parent: controller, curve: Curves.elasticInOut);
     // animation = CurvedAnimation(parent: controller, curve: Curves.easeInCubic);
-
 
     //匀速
     //图片宽高从0变到300
