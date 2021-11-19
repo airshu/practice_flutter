@@ -466,7 +466,7 @@ class Example9 extends Example {
         maxWidth: 150,
         maxHeight: 150,
       ),
-      child: Container(color: red, width: 10, height: 10),
+      child: Container(color: red, width: 100, height: 10),
     );
   }
 }

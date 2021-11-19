@@ -1,7 +1,10 @@
 
 
 void main() {
-  [].clear();
 
-  List.empty().clear();
+
+  double width = double.infinity;
+  double minWidth = 10.0;
+  double maxWidth = 100.0;
+  print(width.clamp(minWidth, maxWidth));
 }
