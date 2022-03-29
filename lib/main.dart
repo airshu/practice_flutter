@@ -1,130 +1,130 @@
-import 'dart:async';
-import 'dart:io';
-import 'dart:isolate';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:practice_flutter/home.dart';
-import 'package:practice_flutter/test_page/anim_test_page.dart';
-import 'package:practice_flutter/test_page/container_test_page.dart';
-import 'package:practice_flutter/test_page/inherited_test_page.dart';
-import 'package:practice_flutter/test_page/refresh_test_page.dart';
-import 'package:practice_flutter/test_page/shopping_page.dart';
-import 'package:practice_flutter/test_page/state1_test_page.dart';
-import 'package:practice_flutter/test_page/test_page.dart';
-import 'package:practice_flutter/test_page/text_page.dart';
-import 'package:practice_flutter/test_page/widget_lifecycle_page.dart';
-import 'package:practice_flutter/test_page/widget_page.dart';
-
-import 'test_page/appbar_test_page.dart';
 
 void main() {
-  // 重写异常方法，可用于上报
-  FlutterError.onError = (FlutterErrorDetails details) {
-    // stderr.writeln('出错啦！！！！！！!!!!!');
-    FlutterError.dumpErrorToConsole(details);
-  };
-
-  // 隔离异常监听
-  Isolate.current.addErrorListener(RawReceivePort((dynamic pair) async {
-    print('Isolate error ');
-  }).sendPort);
-
-  // Exception, 未被 Flutter 捕获的错误
-  runZonedGuarded(() async {
-    WidgetsFlutterBinding.ensureInitialized();
-    runApp(const MyApp());
-  }, (Object error, StackTrace stack){
-    stderr.writeln('${error.toString()} ===\n====  ${stack.toString()}'  );
-
-  });
-
-
-  ///这是设置状态栏的图标和字体的颜色
-  ///Brightness.light  一般都是显示为白色
-  ///Brightness.dark 一般都是显示为黑色
-  // SystemUiOverlayStyle style = const SystemUiOverlayStyle(
-  //     statusBarColor: Colors.transparent,
-  //     statusBarIconBrightness: Brightness.dark);
-  // SystemChrome.setSystemUIOverlayStyle(style);
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
+
+  PageController pageController = PageController();
+
+  final name1 = 'nam1';
+
+  final name2 = 'name2';
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      // theme: ThemeData(
-      // scaffoldBackgroundColor: themes.themeColor,
-      // bottomAppBarColor: themes.themeColor,
-      // ),
-      // debugShowCheckedModeBanner: false,
-      routes: _routes,
-      initialRoute: "menu",
+      home: Scaffold(
+        body: Container(
+          child: Row(
+            children: [
+              Column(
+                children: [
+                  CupertinoButton(
+                      child: Text('menu1'),
+                      onPressed: () {
+                        pageController.jumpToPage(0);
+                      }),
+                  CupertinoButton(
+                      child: Text('menu2'),
+                      onPressed: () {
+                        pageController.jumpToPage(1);
+                      }),
+                ],
+              ),
+              Expanded(
+                child: Container(
+                  child: PageView(
+                    controller: pageController,
+                    children: [
+                      TestPage(pageName: 'test1',),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
 
-final Map<String, WidgetBuilder> _routes = {
-  "menu": (context) => MenuPage(),
-  "test": (context) => CustomerStatefulWidget('_name'),
-  "home": (context) => HomePage(),
-  "text": (context) => TextPage(),
-  "shopping": (context) => ShoppingPage(),
-  "widget": (context) => WidgetPage(),
-  "container": (context) => ContainerTestPage(),
-  "widget_lifecycle": (context) => WidgetLifeCyclePage(),
-  "anim_test": (context) => AnimTestPage(),
-  "pull_to_refresh": (context) => PullToRefreshWidget(),
-  "ParentWidgetC": (context) => ParentWidgetC(),
-  "MyTree": (context) => InheritedWidgetTestRoute(),
-  "AppBar": (context) => AppBarTestPage(),
-  // 'GetX': (context) => GetXExamplePage(),
-};
+class TestPage extends StatelessWidget {
+  TestPage({Key? key, required this.pageName}) : super(key: key);
 
-class MenuPage extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => _MenuPageState();
-}
+  final String pageName;
 
-class _MenuPageState extends State<MenuPage> {
-  List<String> _menus = _routes.keys.toList().sublist(1);
+  static const String opportunityDetail = '/opportunity/main/detailV2'; // 商机客户详情V2
+  static const String opportunityMain = '/opportunity/main';
 
-  @override
-  void initState() {
-
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          '目录',
-          textAlign: TextAlign.center,
-        ),
-      ),
-      body: Center(
-          child: ListView.separated(
-              itemBuilder: (BuildContext context, int index) {
-                return Container(
-                  height: 50,
-                  color: Colors.green,
-                  child: GestureDetector(
-                    child: Center(child: Text('${_menus[index]}')),
-                    onTap: () {
-                      Navigator.pushNamed(context, '${_menus[index]}');
-                    },
-                  ),
-                );
-              },
-              separatorBuilder: (BuildContext context, int index) =>
-                  const Divider(),
-              itemCount: _menus.length)),
+    return Container(
+      child: TestPage1(pageName: 'aaa',)
     );
   }
 }
+
+class TestPage1 extends StatelessWidget {
+  TestPage1({Key? key, required this.pageName}) : super(key: key);
+
+  final String pageName;
+
+  @override
+  Widget build(BuildContext context) {
+    print('Testpage1  build====>>>>  $pageName');
+    return Container(
+      child: Center(
+        child: Column(
+          children: [
+            ElevatedButton(
+              child: const Text('Pop!'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            ElevatedButton(
+              child: Text(
+                '>>>>  $pageName',
+              ),
+              onPressed: () {
+                var page = TestPage1(pageName: '$pageName  1232');
+                // Get.global(10001).currentState?.push(newCommonPageRouteBuilder(page));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) {
+                    return page;
+                  }),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  static PageRouteBuilder newCommonPageRouteBuilder(Widget widget,
+      {Widget Function(BuildContext ctx, Animation<double> one, Animation<double> two, Widget child)? transition}) {
+    return PageRouteBuilder(
+        pageBuilder: (ctx, one, two) => widget, transitionsBuilder: transition ?? slideTransitionRTL);
+  }
+
+  static SlideTransition slideTransitionRTL(ctx, one, two, child) {
+    return SlideTransition(
+      position: Tween<Offset>(
+        begin: const Offset(1.0, 0.0),
+        end: const Offset(0.0, 0.0),
+      ).animate(one),
+      child: child,
+    );
+  }
+}
+
 
