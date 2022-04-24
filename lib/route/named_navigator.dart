@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
+/// 命名路由跳转，直接配置好不同的名字进行跳转
 void main() {
-  runApp(Nav2App());
+  runApp(const NamedRouteApp());
 }
 
-class Nav2App extends StatelessWidget {
+class NamedRouteApp extends StatelessWidget {
+  const NamedRouteApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -17,6 +20,8 @@ class Nav2App extends StatelessWidget {
 }
 
 class HomeScreen extends StatelessWidget {
+  const HomeScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,6 +42,8 @@ class HomeScreen extends StatelessWidget {
 }
 
 class DetailScreen extends StatelessWidget {
+  const DetailScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

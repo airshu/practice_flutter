@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
+/// 嵌套路由
+///
 void main() {
-  runApp(NestedRouterDemo());
+  runApp(const NestedRouterApp());
 }
 
 class Book {
@@ -11,12 +13,14 @@ class Book {
   Book(this.title, this.author);
 }
 
-class NestedRouterDemo extends StatefulWidget {
+class NestedRouterApp extends StatefulWidget {
+  const NestedRouterApp({Key? key}) : super(key: key);
+
   @override
-  _NestedRouterDemoState createState() => _NestedRouterDemoState();
+  _NestedRouterAppState createState() => _NestedRouterAppState();
 }
 
-class _NestedRouterDemoState extends State<NestedRouterDemo> {
+class _NestedRouterAppState extends State<NestedRouterApp> {
   final BookRouterDelegate _routerDelegate = BookRouterDelegate();
   final BookRouteInformationParser _routeInformationParser = BookRouteInformationParser();
 
@@ -371,11 +375,11 @@ class BookDetailsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            FlatButton(
+            ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Back'),
+              child: const Text('Back'),
             ),
             if (book != null) ...[
               Text(book.title, style: Theme.of(context).textTheme.headline6),

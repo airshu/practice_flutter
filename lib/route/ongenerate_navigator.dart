@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
+/// 命名路由跳转，通过onGenerateRoute实现
 void main() {
-  runApp(Nav2App());
+  runApp(NavigatorOnGenerateApp());
 }
 
-class Nav2App extends StatelessWidget {
+class NavigatorOnGenerateApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -27,7 +28,12 @@ class Nav2App extends StatelessWidget {
   }
 }
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,14 +51,44 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  void initState() {
+    super.initState();
+    print('_HomeScreenState  initState');
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    print('_HomeScreenState didChangeDependencies');
+  }
 }
 
-class DetailScreen extends StatelessWidget {
+class DetailScreen extends StatefulWidget {
   String id;
 
   DetailScreen({
     required this.id,
   });
+
+  @override
+  State<DetailScreen> createState() => _DetailScreenState();
+}
+
+class _DetailScreenState extends State<DetailScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+    print('_DetailScreenState  initState');
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    print('_DetailScreenState didChangeDependencies');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +98,7 @@ class DetailScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Viewing details for item $id'),
+            Text('Viewing details for item ${widget.id}'),
             ElevatedButton(
               child: Text('Pop!'),
               onPressed: () {
@@ -81,7 +117,7 @@ class UnknownScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Center(
+      body: const Center(
         child: Text('404!'),
       ),
     );

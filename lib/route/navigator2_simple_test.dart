@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
+/// 测试路由跳转
 void main() {
-  runApp(BooksApp());
+  runApp(SingleNavigatorApp());
 }
 
 class Book {
@@ -11,12 +12,12 @@ class Book {
   Book(this.title, this.author);
 }
 
-class BooksApp extends StatefulWidget {
+class SingleNavigatorApp extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _BooksAppState();
+  State<StatefulWidget> createState() => _SingleNavigatorAppState();
 }
 
-class _BooksAppState extends State<BooksApp> {
+class _SingleNavigatorAppState extends State<SingleNavigatorApp> {
   Book? _selectedBook;
 
   List<Book> books = [
@@ -40,7 +41,8 @@ class _BooksAppState extends State<BooksApp> {
           ),
           if (_selectedBook != null) BookDetailsPage(book: _selectedBook!)
         ],
-        onPopPage: (route, result) {
+        onPopPage: (route, result) { //出栈判断、刷新UI，可用于监控回退
+          print('======route=>$route');
           if (!route.didPop(result)) {
             return false;
           }
