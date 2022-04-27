@@ -12,12 +12,14 @@ class _OverlayDraggerWidgetState extends State<OverlayDraggerWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GestureDetector(
-        onTap: () {
-          DragOverlay.show(context: context, view: const Scaffold(body: Text('测')));
-        },
-        child: Center(
-          child: Text('点击测试'),
+      body: Container(
+        width: 400,
+        height: 400,
+        color: Colors.red,
+        child:  Center(
+          child: GestureDetector(child: Text('点击测试'), onTap: (){
+            DragOverlay.show(context: context, view: Text('ce'));
+          },),
         ),
       ),
     );
@@ -41,6 +43,7 @@ class DragOverlay {
   }
 
   static void show({required BuildContext context, required Widget view}) {
+    print('======${MediaQuery.of(context).size.height}');
     DragOverlay.view = view;
 
     remove();
