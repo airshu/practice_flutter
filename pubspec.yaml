@@ -41,6 +41,31 @@ dependencies:
   equatable: ^2.0.3
 
 
+  extended_text_field:
+  extended_image:
+  extended_sliver:
+  extended_text:
+  ff_annotation_route_library:
+  fl_chart:
+  http_client_helper:
+  image:
+  image_editor:
+  intl:
+  js:
+  like_button:
+  loading_more_list:
+  oktoast:
+#  photo_manager:
+  pull_to_refresh_notification:
+  url_launcher:
+  vm_service:
+  wechat_assets_picker:
+  share:
+  image_picker:
+  share_plus: ^7.0.1
+  file_selector:
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
