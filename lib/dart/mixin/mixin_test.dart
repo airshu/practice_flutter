@@ -5,12 +5,12 @@ main() {
 
   // A -> MB -> MA -> S 如果不主动调用上一级，则会终止，
   A().fun();
-  // B().fun();
+  B().fun();
 }
 
 class S {
   fun() {
-    print('A');
+    print('S');
   }
 }
 

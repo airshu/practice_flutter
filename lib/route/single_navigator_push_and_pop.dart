@@ -19,6 +19,8 @@ class SingleNavigatorPushAndPopApp extends StatelessWidget {
 class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => _HomeScreenState();
+
+  static BuildContext? myContext;
 }
 
 class _HomeScreenState extends State<HomeScreen> {
@@ -108,13 +110,25 @@ class DetailScreen extends StatefulWidget {
 class _DetailScreenState extends State<DetailScreen> {
   @override
   Widget build(BuildContext context) {
+
+    print('>>>>myContext=${HomeScreen.myContext.hashCode}');
+    print('>>>>>>>context=${context.hashCode}');
+    final handler = () => apply(Theme.of(context));
+    useHandler(handler);
+    useContext(context);
+
     return Scaffold(
       appBar: AppBar(),
       body: Center(
         child: ElevatedButton(
           child: const Text('Pop!'),
           onPressed: () {
+            Future.delayed(Duration(seconds: 2)).then((value) {
+              print('===>>>>${context}');
+            });
             Navigator.pop(context);
+
+
           },
         ),
       ),
@@ -125,6 +139,12 @@ class _DetailScreenState extends State<DetailScreen> {
   void initState() {
     super.initState();
     print('_DetailScreenState  initState');
+  }
+
+  @override
+  void dispose() {
+    print('===dispose>>>>>>>');
+    super.dispose();
   }
 
   @override
@@ -144,4 +164,26 @@ class _DetailScreenState extends State<DetailScreen> {
     super.deactivate();
     print('_DetailScreenState deactivate');
   }
+
+  apply(ThemeData of) {
+
+  }
+
+
+
+
+
 }
+
+
+
+Function()? myHandler;
+
+void useHandler(Function() handler) {
+  myHandler = handler;
+}
+
+void useContext(BuildContext context) {
+  HomeScreen.myContext = context;
+}
+

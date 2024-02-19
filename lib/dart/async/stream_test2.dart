@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 main() {
@@ -12,9 +13,12 @@ void test1() async {
   // await for (var i in stream) {
   //   print(i);
   // }
-  stream.listen((event) {
+  StreamSubscription streamSubscription = stream.listen((event) {
     print(event);
   }, onDone: () {}, onError: (e) {});
+
+  streamSubscription.pause();
+  streamSubscription.resume();
 }
 
 int callback(int value) {
@@ -62,9 +66,9 @@ void test4() async {
 
 void test5() async {
   Stream<int> stream = Stream.periodic(Duration(seconds: 1), callback);
-  stream = stream.take(3);//取三个元素停止
-  stream = stream.takeWhile((element) => element<3);//不满足条件则停止
-  stream.skip(3);//跳过几个元素
+  stream = stream.take(3); //取三个元素停止
+  stream = stream.takeWhile((element) => element < 3); //不满足条件则停止
+  stream.skip(3); //跳过几个元素
   await for (var i in stream) {
     print(i);
   }

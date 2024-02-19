@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(const HomePage());
+void main() => runApp(const ConstraintHomePage());
 
 const red = Colors.red;
 const green = Colors.green;
@@ -9,8 +9,8 @@ const big = TextStyle(fontSize: 30);
 
 //////////////////////////////////////////////////
 
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+class ConstraintHomePage extends StatelessWidget {
+  const ConstraintHomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -221,7 +221,6 @@ class Button extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       style: TextButton.styleFrom(
-        primary: Colors.white,
         backgroundColor: isSelected ? Colors.grey : Colors.grey[800],
       ),
       child: Text(exampleNumber.toString()),
@@ -253,7 +252,11 @@ class Example1 extends Example {
 
   @override
   Widget build(BuildContext context) {
-    return Container(color: red);
+    return GestureDetector(
+      onTapDown: (details) {
+        print('======>>>>>>>>>>>>$details');
+      },
+        child: Container(color: red));
   }
 }
 

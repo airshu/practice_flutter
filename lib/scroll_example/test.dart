@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:practice_flutter/layout/constraint_test.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(ScrollMyApp());
 
-class MyApp extends StatelessWidget {
+class ScrollMyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: {
         '/nested': (_) => NestedScrollViewPage(),
         '/custom': (_) => CustomScrollViewPage(),
+        '/wechatMine': (_) => WechatMinePage(),
       },
       home: Scaffold(
         body: Builder(
@@ -38,38 +39,60 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class NestedScrollViewPage extends StatelessWidget {
+class NestedScrollViewPage extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[
-            SliverOverlapAbsorber(
-              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-              sliver: SliverAppBar(
-                title: const Text('NestedScrollView'),
-                expandedHeight: 300,
-              ),
+  State<NestedScrollViewPage> createState() => _NestedScrollViewPageState();
+}
+
+class _NestedScrollViewPageState extends State<NestedScrollViewPage> {
+
+
+  Widget buildBody() {
+    return NestedScrollView(
+      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+        return <Widget>[
+          SliverOverlapAbsorber(
+            handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+            sliver: SliverAppBar(
+              title: const Text('NestedScrollView'),
+              expandedHeight: 300,
             ),
-          ];
-        },
-        body: Builder(builder: (context) {
-          return CustomScrollView(
-            slivers: <Widget>[
-              SliverOverlapInjector(
-                handle:
-                NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-              ),
-              SliverToBoxAdapter(
+          ),
+        ];
+      },
+      body: Builder(builder: (context) {
+        return CustomScrollView(
+          slivers: <Widget>[
+            SliverOverlapInjector(
+              handle:
+              NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+            ),
+            SliverToBoxAdapter(
+                child: GestureDetector(
+                  onTapDown: (details) {
+                    setState(() {
+                      print('onTapDown>>>>>>>>>>>>>>>>>>>>>>>>${DateTime.now()}');
+                    });
+                  },
                   child: Container(
                     color: Colors.amber,
                     height: 100,
-                  )),
-            ],
-          );
-        }),
-      ),
+                  ),
+                )),
+          ],
+        );
+      }),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    print('-----------');
+    return Scaffold(
+      body: buildBody(),
+      // body: Scrollbar(
+      //   child: Container(color: Colors.red,),
+      // ),
     );
   }
 }
@@ -92,5 +115,14 @@ class CustomScrollViewPage extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class WechatMinePage extends StatelessWidget {
+  const WechatMinePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
   }
 }

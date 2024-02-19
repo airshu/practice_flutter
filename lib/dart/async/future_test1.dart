@@ -2,18 +2,19 @@ import 'dart:async';
 
 import 'dart:io';
 
-main() {
+
+main() async {
 
   // testDelayedTask();
-  testWait();
-  return;
+  // testWait();
+  // return;
 
-  Future(()=>print('test'));// 将任务添加到Event队列
-  Future.delayed(Duration(milliseconds: 1000)).then((value) => print('test2 delay 1s'));
-  Future.microtask(() => print('Future.microtask'));// 调度任务，优先级高，但会阻塞Event任务
-  Future.sync(() => print('sync')).catchError((e){
-    print(e);
-  });
+  // Future(()=>print('test'));// 将任务添加到Event队列
+  // Future.delayed(Duration(milliseconds: 1000)).then((value) => print('test2 delay 1s'));
+  // Future.microtask(() => print('Future.microtask'));// 调度任务，优先级高，但会阻塞Event任务
+  // Future.sync(() => print('sync')).catchError((e){
+  //   print(e);
+  // });
 
 
 
@@ -22,12 +23,25 @@ main() {
   //   print('=======${DateTime.now()}');
   // });
 
-  scheduleMicrotask((){
-    print('=====');
+  // scheduleMicrotask((){
+  //   print('=====');
+  // });
+
+  test1();
+  await test2();
+  test1();
+}
+
+void test1() {
+  print('====>>>>>>test1  ${DateTime.now()}');
+}
+
+Future test2() async {
+  print('test2 start');
+  Future.delayed(Duration(milliseconds: 300)).then((value) {
+    print('==============');
   });
-
-
-
+  print('test2 end');
 
 }
 

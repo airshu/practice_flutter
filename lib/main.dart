@@ -1,130 +1,77 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:practice_flutter/bloc_example/bloc_example_1.dart';
+import 'package:practice_flutter/go_route/go_route_main.dart';
+import 'package:practice_flutter/plugin_example/plugin_example.dart';
+import 'package:practice_flutter/route/named_navigator.dart';
+import 'package:practice_flutter/route/navigator2_nested.dart';
+import 'package:practice_flutter/route/navigator2_simple_test.dart';
+import 'package:practice_flutter/route/navigator2_test.dart';
+import 'package:practice_flutter/route/navigator_main.dart';
+import 'package:practice_flutter/scroll_example/test.dart';
+import 'package:practice_flutter/share_example/share_main.dart';
+import 'package:practice_flutter/state_manage/inheritdwidget/inherited_widget_test.dart';
+import 'package:practice_flutter/state_manage/provider/provider_test.dart';
+import 'package:practice_flutter/state_manage/valuelistenablebuilder_test.dart';
+import 'package:practice_flutter/text/expand_text.dart';
+
+import 'animate/test.dart';
+import 'common/base_state.dart';
+import 'ffmpeg/audio_example.dart';
+import 'layout/constraint_test.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MaterialApp(
+    home: MyApp(),
+  ));
 }
 
-class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
-
-  PageController pageController = PageController();
-
-  final name1 = 'nam1';
-
-  final name2 = 'name2';
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      home: Scaffold(
-        body: Container(
-          child: Row(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Flutter 示例'),
+      ),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Column(
             children: [
-              Column(
-                children: [
-                  CupertinoButton(
-                      child: Text('menu1'),
-                      onPressed: () {
-                        pageController.jumpToPage(0);
-                      }),
-                  CupertinoButton(
-                      child: Text('menu2'),
-                      onPressed: () {
-                        pageController.jumpToPage(1);
-                      }),
-                ],
-              ),
-              Expanded(
-                child: Container(
-                  child: PageView(
-                    controller: pageController,
-                    children: [
-                      TestPage(pageName: 'test1',),
-                    ],
-                  ),
-                ),
-              ),
+              buildButton('AnimationDemo', () => AnimationDemo()),
+              buildButton('Bloc Demo', () => BlocExample()),
+              buildButton('AudioExample', () => AudioExample1()),
+              buildButton('GoRouterMyApp', () => GoRouterMyApp()),
+              buildButton('ConstraintHomePage', () => ConstraintHomePage()),
+              buildButton('PluginMyApp', ()=> PluginMyApp()),
+              buildButton('NavigatorMainApp', () => NavigatorMainApp()),
+              buildButton('ScrollMyApp', () => ScrollMyApp()),
+              buildButton('ShareDemoApp', () => ShareDemoApp()),
+              buildButton('InheritedWidgetTestRoute', () => InheritedWidgetTestRoute()),
+              buildButton('ProviderRoute', () => ProviderRoute()),
+              buildButton('ValueListenableRoute', () => ValueListenableRoute()),
+              buildButton('可折叠文本控件', () => TextApp1()),
             ],
           ),
         ),
       ),
     );
   }
-}
 
-class TestPage extends StatelessWidget {
-  TestPage({Key? key, required this.pageName}) : super(key: key);
-
-  final String pageName;
-
-  static const String opportunityDetail = '/opportunity/main/detailV2'; // 商机客户详情V2
-  static const String opportunityMain = '/opportunity/main';
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: TestPage1(pageName: 'aaa',)
+  Widget buildButton(String title, Function pageBuilder) {
+    return BaseButtonWidget(
+      title: title,
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return pageBuilder();
+        }));
+      },
     );
   }
 }
-
-class TestPage1 extends StatelessWidget {
-  TestPage1({Key? key, required this.pageName}) : super(key: key);
-
-  final String pageName;
-
-  @override
-  Widget build(BuildContext context) {
-    print('Testpage1  build====>>>>  $pageName');
-    return Container(
-      child: Center(
-        child: Column(
-          children: [
-            ElevatedButton(
-              child: const Text('Pop!'),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            ElevatedButton(
-              child: Text(
-                '>>>>  $pageName',
-              ),
-              onPressed: () {
-                var page = TestPage1(pageName: '$pageName  1232');
-                // Get.global(10001).currentState?.push(newCommonPageRouteBuilder(page));
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) {
-                    return page;
-                  }),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  static PageRouteBuilder newCommonPageRouteBuilder(Widget widget,
-      {Widget Function(BuildContext ctx, Animation<double> one, Animation<double> two, Widget child)? transition}) {
-    return PageRouteBuilder(
-        pageBuilder: (ctx, one, two) => widget, transitionsBuilder: transition ?? slideTransitionRTL);
-  }
-
-  static SlideTransition slideTransitionRTL(ctx, one, two, child) {
-    return SlideTransition(
-      position: Tween<Offset>(
-        begin: const Offset(1.0, 0.0),
-        end: const Offset(0.0, 0.0),
-      ).animate(one),
-      child: child,
-    );
-  }
-}
-
-

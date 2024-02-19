@@ -3,6 +3,23 @@
 ///
 ///
 main() {
+
+
+  int.parse(null ?? '0');
+
+
+
+// test3();
+}
+
+void test3() {
+
+  List list  = [1];
+  print(list.length);
+  print(list.single);
+}
+
+void test1() {
   int a = 2;
   a++;
   print('a++=$a');
@@ -53,7 +70,5 @@ main() {
   print((value ^ bitmask)  == 0x2d);  // 异或
   print((value << 4)       == 0x220); // 左移
   print((value >> 4)       == 0x02);  // 右移
-
-
 
 }

@@ -31,7 +31,7 @@ Stream<String> fetchEmojis(int count) async* {
 
 Future<String> fetchEmoji(int count) async {
   Runes first = Runes('\u{1f474}');
-  await Future.delayed(Duration(seconds: 1));
+  // await Future.delayed(Duration(seconds: 1));
   return String.fromCharCodes(first.map((e) => e + count));
 }
 
