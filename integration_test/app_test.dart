@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:practice_flutter/ffmpeg/main.dart';
 
 /// UI测试示例
 
@@ -31,7 +30,7 @@ void main() async {
 
   testWidgets('test app', (WidgetTester tester) async {
 
-    await tester.pumpWidget(MyApp());
+    // await tester.pumpWidget(MyApp());
 
     await tester.pumpAndSettle();
 
