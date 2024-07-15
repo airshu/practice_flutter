@@ -62,15 +62,14 @@ dependencies:
   wechat_assets_picker:
   share:
   image_picker:
-  share_plus: ^7.0.1
+#  share_plus: ^7.0.1
   file_selector:
   go_router:
   adaptive_navigation: ^0.0.4
   flutter_sound:
-  ffmpeg_kit_flutter:
+#  ffmpeg_kit_flutter:
   leak_tracker:
   rxdart:
-
 
 
 dev_dependencies:
