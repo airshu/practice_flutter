@@ -39,7 +39,7 @@ class _SetStateExampleState extends State<SetStateExample> {
             width: 300,
             color: Colors.red,
             child: ShareDataWidget(
-                data: count,
+              data: count,
                 child: Column(
                   children: [
                     Container(
@@ -68,7 +68,7 @@ class _SetStateExampleState extends State<SetStateExample> {
 
 class FirstWidget extends StatefulWidget {
   FirstWidget(){
-    print('>>>>>FirstWidget  $hashCode');
+      print('>>>>>FirstWidget  $hashCode');
   }
 
   @override

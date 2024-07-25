@@ -3,13 +3,27 @@ import 'package:flutter/widgets.dart';
 
 /// InheritedWidget实例
 void main() {
-  debugPrintBuildScope = true;
+  // debugPrintBuildScope = true;//Widget构建
+  // debugPrintScheduleBuildForStacks = false;//调度构建堆栈
+  // debugPrintGlobalKeyedWidgetLifecycle = false;//GlobalKey的生命周期信息
+  // debugProfileBuildsEnabled = false;//打印性能相关信息
   runApp(
     MaterialApp(
       home: Scaffold(body: InheritedWidgetTestRoute()),
     ),
   );
 }
+
+class FooWidget extends StatelessWidget {
+  const FooWidget();
+
+  @override
+  Widget build(BuildContext context) {
+    print('>>>>>>>>>>>>>>FooWidget build');
+    return const Placeholder();
+  }
+}
+
 
 class InheritedWidgetTestRoute extends StatefulWidget {
   @override
@@ -21,6 +35,7 @@ class _InheritedWidgetTestRouteState extends State<InheritedWidgetTestRoute> {
 
   @override
   Widget build(BuildContext context) {
+    print('>>>>>>>>>>>>>>_InheritedWidgetTestRouteState build');
     return Center(
       child: ShareDataWidget(
         //使用ShareDataWidget
@@ -30,12 +45,15 @@ class _InheritedWidgetTestRouteState extends State<InheritedWidgetTestRoute> {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.only(bottom: 20.0),
-              child: _TestWidget(), //子widget中依赖ShareDataWidget
+              child: TestInheritWidget(), //子widget中依赖ShareDataWidget
             ),
+            FooWidget(),
             ElevatedButton(
               child: const Text("Increment"),
               //每点击一次，将count自增，然后重新build,ShareDataWidget的data将被更新
-              onPressed: () => setState(() => ++count),
+              onPressed: () => setState(() {
+                // ++count;
+              }),
             )
           ],
         ),
@@ -44,14 +62,15 @@ class _InheritedWidgetTestRouteState extends State<InheritedWidgetTestRoute> {
   }
 }
 
-class _TestWidget extends StatefulWidget {
+class TestInheritWidget extends StatefulWidget {
   @override
-  __TestWidgetState createState() => __TestWidgetState();
+  _TestInheritWidgetState createState() => _TestInheritWidgetState();
 }
 
-class __TestWidgetState extends State<_TestWidget> {
+class _TestInheritWidgetState extends State<TestInheritWidget> {
   @override
   Widget build(BuildContext context) {
+    print('>>>>>>>build _TestInheritWidgetState');
     //使用InheritedWidget中的共享数据
     return Text(ShareDataWidget.of(context)!.data.toString());
   }
@@ -61,7 +80,13 @@ class __TestWidgetState extends State<_TestWidget> {
     super.didChangeDependencies();
     //父或祖先widget中的InheritedWidget改变(updateShouldNotify返回true)时会被调用。
     //如果build中没有依赖InheritedWidget，则此回调不会被调用。
-    print("Dependencies change");
+    print("_TestInheritWidgetState  Dependencies change");
+  }
+
+  @override
+  void didUpdateWidget(covariant TestInheritWidget oldWidget) {
+    print('_TestInheritWidgetState   didUpdateWidget');
+    super.didUpdateWidget(oldWidget);
   }
 }
 
