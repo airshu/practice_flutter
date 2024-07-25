@@ -3,10 +3,12 @@ import 'package:flutter/widgets.dart';
 
 /// InheritedWidget实例
 void main() {
-  // debugPrintBuildScope = true;//Widget构建
-  // debugPrintScheduleBuildForStacks = false;//调度构建堆栈
-  // debugPrintGlobalKeyedWidgetLifecycle = false;//GlobalKey的生命周期信息
-  // debugProfileBuildsEnabled = false;//打印性能相关信息
+  debugPrintBuildScope = true;//Widget构建
+  // debugPrintScheduleBuildForStacks = true;//调度构建堆栈
+  // debugPrintGlobalKeyedWidgetLifecycle = true;//GlobalKey的生命周期信息
+  // debugProfileBuildsEnabled = true;//打印性能相关信息
+  debugPrintRebuildDirtyWidgets = true;
+
   runApp(
     MaterialApp(
       home: Scaffold(body: InheritedWidgetTestRoute()),
@@ -23,6 +25,34 @@ class FooWidget extends StatelessWidget {
     return const Placeholder();
   }
 }
+
+class NormalWidget extends StatefulWidget {
+  const NormalWidget();
+
+  @override
+  State<NormalWidget> createState() => _NormalWidgetState();
+}
+
+class _NormalWidgetState extends State<NormalWidget> {
+  @override
+  Widget build(BuildContext context) {
+    print('_NormalWidgetState >>>>>>>>>>>>>> build');
+    return Container(child: Text('123123'),);
+  }
+
+  @override
+  void didChangeDependencies() {
+    print('_NormalWidgetState didChangeDependencies >>>>> ');
+    super.didChangeDependencies();
+  }
+
+  @override
+  void didUpdateWidget(covariant NormalWidget oldWidget) {
+    print('_NormalWidgetState didUpdateWidget >>>>> ');
+    super.didUpdateWidget(oldWidget);
+  }
+}
+
 
 
 class InheritedWidgetTestRoute extends StatefulWidget {
@@ -48,11 +78,13 @@ class _InheritedWidgetTestRouteState extends State<InheritedWidgetTestRoute> {
               child: TestInheritWidget(), //子widget中依赖ShareDataWidget
             ),
             FooWidget(),
+            NormalWidget(),
+            Image.asset('assets/images/111.jpeg'),
             ElevatedButton(
               child: const Text("Increment"),
               //每点击一次，将count自增，然后重新build,ShareDataWidget的data将被更新
               onPressed: () => setState(() {
-                // ++count;
+                ++count;
               }),
             )
           ],
