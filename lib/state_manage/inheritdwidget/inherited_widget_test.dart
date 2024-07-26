@@ -1,19 +1,38 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/rendering.dart';
 
 /// InheritedWidget实例
 void main() {
   debugPrintBuildScope = true;//Widget构建
-  // debugPrintScheduleBuildForStacks = true;//调度构建堆栈
-  // debugPrintGlobalKeyedWidgetLifecycle = true;//GlobalKey的生命周期信息
+  debugPrintScheduleBuildForStacks = true;//调度构建堆栈
+  debugPrintGlobalKeyedWidgetLifecycle = true;//GlobalKey的生命周期信息
+  debugPrintRebuildDirtyWidgets = true;//打印重建的widget
+
+  debugPrintMarkNeedsLayoutStacks = true;
+  debugPrintMarkNeedsPaintStacks = true;
+
+  // debugPaintSizeEnabled = true;//box控件显示亮蓝色边界
+  // debugPaintBaselinesEnabled = true;
+
+  // debugPaintPointersEnabled = true;
+  // debugRepaintRainbowEnabled = true;
+
   // debugProfileBuildsEnabled = true;//打印性能相关信息
-  debugPrintRebuildDirtyWidgets = true;
+  // debugProfilePaintsEnabled = true;
 
   runApp(
     MaterialApp(
       home: Scaffold(body: InheritedWidgetTestRoute()),
     ),
   );
+
+  Timer.run(() {
+
+    // debugDumpApp();
+    // debugDumpLayerTree();
+  });
 }
 
 class FooWidget extends StatelessWidget {
@@ -22,7 +41,7 @@ class FooWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print('>>>>>>>>>>>>>>FooWidget build');
-    return const Placeholder();
+    return const Text('Foo');
   }
 }
 
@@ -37,7 +56,7 @@ class _NormalWidgetState extends State<NormalWidget> {
   @override
   Widget build(BuildContext context) {
     print('_NormalWidgetState >>>>>>>>>>>>>> build');
-    return Container(child: Text('123123'),);
+    return const Text('123123');
   }
 
   @override
@@ -66,29 +85,42 @@ class _InheritedWidgetTestRouteState extends State<InheritedWidgetTestRoute> {
   @override
   Widget build(BuildContext context) {
     print('>>>>>>>>>>>>>>_InheritedWidgetTestRouteState build');
-    return Center(
-      child: ShareDataWidget(
-        //使用ShareDataWidget
-        data: count,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(bottom: 20.0),
-              child: TestInheritWidget(), //子widget中依赖ShareDataWidget
-            ),
-            FooWidget(),
-            NormalWidget(),
-            Image.asset('assets/images/111.jpeg'),
-            ElevatedButton(
-              child: const Text("Increment"),
-              //每点击一次，将count自增，然后重新build,ShareDataWidget的data将被更新
-              onPressed: () => setState(() {
-                ++count;
-              }),
-            )
-          ],
+    return Scaffold(
+      body: Center(
+        child: Builder(
+          builder: (context) {
+            return ShareDataWidget(
+              //使用ShareDataWidget
+              data: count,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 20.0),
+                    child: TestInheritWidget(), //子widget中依赖ShareDataWidget
+                  ),
+                  FooWidget(),
+                  NormalWidget(),
+                  Image.asset('assets/images/111.jpeg', width: MediaQuery.of(context).size.width/2,),
+                  ElevatedButton(
+                    child: const Text("Increment"),
+                    //每点击一次，将count自增，然后重新build,ShareDataWidget的data将被更新
+                    onPressed: () => setState(() {
+                      ++count;
+                    }),
+                  )
+                ],
+              ),
+            );
+          }
         ),
+      ),
+      floatingActionButton: ElevatedButton(
+        child: const Text("Increment"),
+        //每点击一次，将count自增，然后重新build,ShareDataWidget的data将被更新
+        onPressed: () => setState(() {
+          ++count;
+        }),
       ),
     );
   }
