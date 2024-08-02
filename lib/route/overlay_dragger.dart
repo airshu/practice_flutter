@@ -1,6 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+
+void main() {
+  runApp(Directionality(
+    textDirection: TextDirection.ltr,
+      child: OverlayDraggerWidget()));
+}
 class OverlayDraggerWidget extends StatefulWidget {
   const OverlayDraggerWidget({Key? key}) : super(key: key);
 
@@ -8,19 +14,68 @@ class OverlayDraggerWidget extends StatefulWidget {
   State<OverlayDraggerWidget> createState() => _OverlayDraggerWidgetState();
 }
 
-class _OverlayDraggerWidgetState extends State<OverlayDraggerWidget> {
+class _OverlayDraggerWidgetState extends State<OverlayDraggerWidget> with TickerProviderStateMixin {
+
+  GlobalKey<OverlayState> _overlayKey = GlobalKey();
+  List<OverlayEntry> overlayEntries = [];
+
+  late AnimationController controller;
+  late Animation<double> animation;
+  @override
+  void initState() {
+
+    controller = AnimationController(vsync: this, duration: Duration(milliseconds: 3000));
+    animation = Tween(begin: 0.1, end: 1.5).animate(controller);
+    DragOverlay.view = ScaleTransition(
+      scale: animation,
+      child: Container(
+        height: 100,
+          width: 100,
+          color: Colors.blue, child: Text('ce')),
+    );
+    // overlayEntry = OverlayEntry(builder: (context) {
+    //   return Positioned(
+    //     top: MediaQuery.of(context).size.height * 0.5,
+    //     child: DragOverlay._buildDraggable(context),
+    //   );
+    // });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: 400,
-        height: 400,
-        color: Colors.red,
-        child:  Center(
-          child: GestureDetector(child: Text('点击测试'), onTap: (){
-            DragOverlay.show(context: context, view: Text('ce'));
-          },),
+      body: Stack(
+        children: [Container(
+          width: 400,
+          height: 400,
+          color: Colors.red,
+          child:  Center(
+            child: GestureDetector(child: Text('点击测试'), onTap: (){
+              _overlayKey.currentState?.insert(OverlayEntry(builder: (context) {
+                return Positioned(
+                  top: MediaQuery.of(context).size.height * 0.5,
+                  child: DragOverlay._buildDraggable(context),
+                );
+              }));
+              controller.forward();
+              // overlayEntries.add(OverlayEntry(builder: (context) {
+              //   return Positioned(
+              //     top: MediaQuery.of(context).size.height * 0.5,
+              //     child: DragOverlay._buildDraggable(context),
+              //   );
+              // }));
+              // setState(() {
+              // });
+              // DragOverlay.show(context: context, view: Text('ce'));
+            },),
+          ),
         ),
+          Overlay(
+            key: _overlayKey,
+            initialEntries: overlayEntries,
+          ),
+        ]
       ),
     );
   }

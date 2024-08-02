@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:webf/devtools.dart';
-import 'package:webf/webf.dart';
+// import 'package:webf/devtools.dart';
+// import 'package:webf/webf.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -17,15 +17,13 @@ class WebfExample extends StatefulWidget {
 }
 
 class _WebfExampleState extends State<WebfExample> {
-  WebFController? controller;
-
-  WebFJavaScriptChannel javaScriptChannel = WebFJavaScriptChannel();
+  // WebFController? controller;
+  // WebFJavaScriptChannel javaScriptChannel = WebFJavaScriptChannel();
 
   @override
   void initState() {
     super.initState();
-
-    javaScriptChannel.onMethodCall = handleJSCall;
+    // javaScriptChannel.onMethodCall = handleJSCall;
   }
 
   Future<dynamic> handleJSCall(String method, dynamic args) async {
@@ -34,30 +32,31 @@ class _WebfExampleState extends State<WebfExample> {
 
   @override
   Widget build(BuildContext context) {
-    if (controller != null) {
-      controller ??= WebFController(context);
-
-    }
+    // if (controller != null) {
+    //   controller ??= WebFController(context);
+    //
+    // }
 
     final MediaQueryData queryData = MediaQuery.of(context);
     final Size viewportSize = queryData.size;
-    return Scaffold(
-        body: Center(
-          child: WebF(
-            javaScriptChannel: javaScriptChannel,
-            controller: controller,
-            devToolsService: ChromeDevToolsService(), // Enable Chrome DevTools Services
-            // viewportWidth: viewportSize.width - queryData.padding.horizontal, // Adjust the viewportWidth
-            // viewportHeight: viewportSize.height - queryData.padding.vertical, // Adjust the viewportHeight
-            bundle: WebFBundle.fromUrl('http://10.193.207.55:3000/'),
-          ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            javaScriptChannel.invokeMethod("xxx", {});//调用js方法
-          },
-          child: Icon(Icons.refresh),
-        ));
+    // return Scaffold(
+    //     body: Center(
+    //       child: WebF(
+    //         javaScriptChannel: javaScriptChannel,
+    //         controller: controller,
+    //         devToolsService: ChromeDevToolsService(), // Enable Chrome DevTools Services
+    //         // viewportWidth: viewportSize.width - queryData.padding.horizontal, // Adjust the viewportWidth
+    //         // viewportHeight: viewportSize.height - queryData.padding.vertical, // Adjust the viewportHeight
+    //         bundle: WebFBundle.fromUrl('http://10.193.207.55:3000/'),
+    //       ),
+    //     ),
+    //     floatingActionButton: FloatingActionButton(
+    //       onPressed: () {
+    //         javaScriptChannel.invokeMethod("xxx", {});//调用js方法
+    //       },
+    //       child: Icon(Icons.refresh),
+    //     ));
+    return Container();
   }
 }
 

@@ -64,6 +64,7 @@ dependencies:
   image_picker:
   share_plus: ^7.0.1
   file_selector:
+  easy_refresh:
 #  webf: 0.16.1
 
 

@@ -5,6 +5,7 @@ import 'package:flutter/rendering.dart';
 
 void main() {
   test1();
+  // test2();
 }
 
 void test1() {
@@ -13,35 +14,33 @@ void test1() {
   // 用于记录发生在该 canvas 上的所有操作
   //
   Canvas canvas = Canvas(recorder);
-
   Paint circlePaint= Paint();
   circlePaint.color = Colors.blueAccent;
-
   // 调用 Canvas 的绘制接口，画一个圆形
-  //
   canvas.drawCircle(Offset(400, 400), 300, circlePaint);
-
   // 绘制结束，生成Picture
-  //
   Picture picture = recorder.endRecording();
 
-  SceneBuilder sceneBuilder = SceneBuilder();
+
+  PictureRecorder recorder2 = PictureRecorder();//画板记录器
+  Canvas canvas2 = Canvas(recorder2);//画板
+  canvas2.drawRect(Rect.fromLTRB(0, 0, 200, 200), Paint()..color = Colors.yellow);//在画板上绘制
+  Picture picture2 = recorder2.endRecording();//完成记录，返回照片
+
+  SceneBuilder sceneBuilder = SceneBuilder();//场景构建器
   sceneBuilder.pushOffset(0, 0);
   // 将 picture 送入 SceneBuilder
-  //
   sceneBuilder.addPicture(Offset(0, 0), picture);
+  sceneBuilder.addPicture(Offset(100, 100), picture2);//将照片添加到场景中
   sceneBuilder.pop();
 
   // 生成 Scene
-  //
-  Scene scene = sceneBuilder.build();
-
+  Scene scene = sceneBuilder.build();//返回场景
   window.onDrawFrame = () {
     // 将 scene 送入 Engine 层进行渲染显示
-    //
-    window.render(scene);
+    window.render(scene);//渲染场景
   };
-  window.scheduleFrame();
+  window.scheduleFrame();//触发vsync
 
 }
 
@@ -49,6 +48,7 @@ void test1() {
 void test2() {
 
   ContainerLayer containerLayer = ContainerLayer();
+
   PaintingContext paintingContext = PaintingContext(containerLayer, Rect.zero);
 
   Paint circle1Paint= Paint();
@@ -83,20 +83,18 @@ void test2() {
   circle3Paint.color = Colors.yellow;
 
   // 再次画一个⭕️
-  //
-  paintingContext.canvas.drawCircle(Offset(400, 800), 300, circle3Paint);
+  paintingContext.canvas.drawCircle(Offset(400, 800), 200, circle3Paint);
   paintingContext.stopRecordingIfNeeded();
-
 
   SceneBuilder sceneBuilder = SceneBuilder();
   containerLayer.addToScene(sceneBuilder);
   sceneBuilder.pop();
 
+  // 生成 Scene
   Scene scene = sceneBuilder.build();
 
   window.onDrawFrame = () {
     window.render(scene);
   };
   window.scheduleFrame();
-
 }
