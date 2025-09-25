@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:practice_flutter/gen/assets.gen.dart';
 
 void main() {
   runApp(MyApp());
@@ -19,34 +20,38 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       home: Scaffold(
-        body: Container(
-          child: Row(
-            children: [
-              Column(
-                children: [
-                  CupertinoButton(
-                      child: Text('menu1'),
-                      onPressed: () {
-                        pageController.jumpToPage(0);
-                      }),
-                  CupertinoButton(
-                      child: Text('menu2'),
-                      onPressed: () {
-                        pageController.jumpToPage(1);
-                      }),
-                ],
-              ),
-              Expanded(
-                child: Container(
-                  child: PageView(
-                    controller: pageController,
-                    children: [
-                      TestPage(pageName: 'test1',),
-                    ],
+        body: SafeArea(
+          child: Container(
+            child: Row(
+              children: [
+                Column(
+                  children: [
+                    CupertinoButton(
+                        child: Text('menu1'),
+                        onPressed: () {
+                          pageController.jumpToPage(0);
+                        }),
+                    CupertinoButton(
+                        child: Text('menu2'),
+                        onPressed: () {
+                          pageController.jumpToPage(1);
+                        }),
+                  ],
+                ),
+                Expanded(
+                  child: Container(
+                    child: PageView(
+                      controller: pageController,
+                      children: [
+                        TestPage(
+                          pageName: 'test1',
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -62,12 +67,12 @@ class TestPage extends StatelessWidget {
   static const String opportunityDetail = '/opportunity/main/detailV2'; // 商机客户详情V2
   static const String opportunityMain = '/opportunity/main';
 
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: TestPage1(pageName: 'aaa',)
-    );
+        child: TestPage1(
+      pageName: 'aaa',
+    ));
   }
 }
 
@@ -83,6 +88,8 @@ class TestPage1 extends StatelessWidget {
       child: Center(
         child: Column(
           children: [
+            Assets.images.icHomeNormal.image(),
+            Image.asset(Assets.images.icHotSelected.path),
             ElevatedButton(
               child: const Text('Pop!'),
               onPressed: () {
@@ -126,5 +133,3 @@ class TestPage1 extends StatelessWidget {
     );
   }
 }
-
-
